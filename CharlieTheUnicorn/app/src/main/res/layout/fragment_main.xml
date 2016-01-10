@@ -11,6 +11,17 @@
     tools:showIn="@layout/activity_main">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_title"
+        android:textAlignment="center"
+        android:maxLines="2"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"/>
+
     <!--<ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,9 +35,9 @@
     <Button
         android:layout_width="300dp"
         android:layout_height="160dp"
-        android:text="Start          Game"
+        android:text="@string/start_button"
         android:layout_centerHorizontal="true"
         android:id="@+id/startGameBtn"
         android:background="@drawable/button"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginTop="70dp"/>
 </RelativeLayout>
