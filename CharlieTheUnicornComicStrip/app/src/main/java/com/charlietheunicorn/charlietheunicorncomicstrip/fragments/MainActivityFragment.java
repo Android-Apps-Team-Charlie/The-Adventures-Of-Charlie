@@ -30,11 +30,7 @@ public class MainActivityFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        TextView tx = (TextView)view.findViewById(R.id.tv_welcome);
-
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/comics.ttf");
-
-        tx.setTypeface(typeface);
 
         Button button_start = (Button) view.findViewById(R.id.button_start);
 

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="500dp"
+    xmlns:customAttrs="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="50dp"
     android:id="@+id/rl_choose_view">
 
-    <TextView
+    <com.charlietheunicorn.charlietheunicorncomicstrip.shared.CustomFontTextView
         android:layout_width="wrap_content"
-        android:textColor="@android:color/white"
         android:layout_height="wrap_content"
+        customAttrs:customFont="comics"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Choose View"
         android:id="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        style="@style/SharedHeadlinesStyle"/>
 
     <RadioGroup
         android:id="@+id/rb_group"
@@ -21,32 +23,33 @@
 
         <RadioButton
             android:layout_width="wrap_content"
-            android:textColor="@android:color/white"
+            style="@style/SharedTextViewStyle"
             android:layout_height="wrap_content"
             android:text="2 views"
-            android:id="@+id/radioButton" />
+            android:id="@+id/radioButton"
+            android:buttonTint="@android:color/holo_blue_light"/>
 
         <RadioButton
             android:layout_width="wrap_content"
-            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
+            style="@style/SharedTextViewStyle"
             android:text="3 views"
-            android:id="@+id/radioButton2" />
+            android:id="@+id/radioButton2"
+            android:buttonTint="@android:color/holo_blue_light"/>
 
         <RadioButton
             android:layout_width="wrap_content"
-            android:textColor="@android:color/white"
             android:layout_height="wrap_content"
+            style="@style/SharedTextViewStyle"
             android:text="4 views"
-            android:id="@+id/radioButton3" />
+            android:id="@+id/radioButton3"
+            android:buttonTint="@android:color/holo_blue_light"/>
     </RadioGroup>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Continue"
         android:id="@+id/btn_continue"
         android:layout_below="@+id/rb_group"
-        android:layout_centerHorizontal="true" />
+        style="@style/SharedButtonStyle"/>
 
 </RelativeLayout>
