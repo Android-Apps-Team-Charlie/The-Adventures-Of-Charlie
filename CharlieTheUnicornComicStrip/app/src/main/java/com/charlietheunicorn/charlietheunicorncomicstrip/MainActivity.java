@@ -20,8 +20,6 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.initial);
 
-
-
         if (findViewById(R.id.fragment_container) != null) {
 
             MainActivityFragment mainActivityFragment = new MainActivityFragment();

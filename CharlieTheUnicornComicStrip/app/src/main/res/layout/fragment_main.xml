@@ -18,6 +18,14 @@
         android:id="@+id/tv_welcome"
         android:layout_alignParentTop="true"
         style="@style/SharedHeadlinesStyle"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_welcome"
+        android:layout_height="match_parent"
+        android:id="@+id/iv_container"
+        android:layout_alignBottom="@+id/button_start"
+        android:layout_marginBottom="150dp"/>
 
     <Button
         android:text="Start Game"
@@ -25,6 +33,6 @@
         style="@style/SharedButtonStyle"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp" />
+        android:layout_marginBottom="50dp" />
 
 </RelativeLayout>

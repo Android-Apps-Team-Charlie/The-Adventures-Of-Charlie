@@ -25,6 +25,9 @@ public class StartGameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         
         view = inflater.inflate(R.layout.choose_view, container, false);
+
+        view.animate().translationY(view.getHeight());
+
         final Bundle args = this.getArguments();
 
         Button button_continue = (Button) view.findViewById(R.id.btn_continue);

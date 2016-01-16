@@ -1,14 +1,19 @@
 package com.charlietheunicorn.charlietheunicorncomicstrip.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.charlietheunicorn.charlietheunicorncomicstrip.R;
@@ -19,6 +24,9 @@ import com.charlietheunicorn.charlietheunicorncomicstrip.fragments.StartGameFrag
  */
 public class MainActivityFragment extends Fragment {
 
+    View view;
+    AnimationDrawable rocketAnimation;
+
     public MainActivityFragment() {
     }
 
@@ -28,7 +36,13 @@ public class MainActivityFragment extends Fragment {
 
         Context context = getActivity();
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        view.animate().alpha(1.0f);
+
+        ImageView rocketImage = (ImageView) view.findViewById(R.id.iv_container);
+        rocketImage.setBackgroundResource(R.drawable.rocket_thrust);
+        rocketAnimation = (AnimationDrawable) rocketImage.getBackground();
 
         Typeface typeface = Typeface.createFromAsset(context.getAssets(), "fonts/comics.ttf");
 
@@ -52,4 +66,9 @@ public class MainActivityFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        rocketAnimation.start();
+        super.onStart();
+    }
 }
