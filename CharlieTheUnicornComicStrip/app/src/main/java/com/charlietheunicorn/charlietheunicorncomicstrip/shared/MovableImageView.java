@@ -124,8 +124,8 @@ public class MovableImageView extends ImageView {
                 final float x = event.getRawX();
                 final float y = event.getRawY();
 
-                float mPosX = x-this.getWidth()/2;
-                float mPosY = y-this.getHeight()/2;
+                float mPosX = x - this.getWidth()/2;
+                float mPosY = y - this.getHeight()/2 - mPivotY / 2;
 
                 this.setX(mPosX);
                 this.setY(mPosY);

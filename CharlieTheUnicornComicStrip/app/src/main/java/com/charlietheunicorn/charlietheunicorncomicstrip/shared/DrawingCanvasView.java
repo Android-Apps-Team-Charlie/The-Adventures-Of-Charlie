@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Picture;
@@ -73,6 +74,11 @@ public class DrawingCanvasView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
+    }
+
+    public void drawBitmap(Bitmap bitmap, Matrix matrix) {
+        drawCanvas.drawBitmap(bitmap, matrix, null);
+        invalidate();
     }
 
     // override onTouch events

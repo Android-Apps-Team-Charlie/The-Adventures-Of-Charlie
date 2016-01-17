@@ -13,15 +13,33 @@
     android:id="@+id/drawing_layout"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/header"
-        layout="@layout/drawing_top_toolbar" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/body"
-        layout="@layout/drawing_canvas" />
+        <include
+            android:id="@+id/header"
+            layout="@layout/drawing_top_toolbar" />
 
-    <include
-        android:id="@+id/footer"
-        layout="@layout/drawing_bottom_toolbar" />
+        <include
+            android:id="@+id/confirmation"
+            layout="@layout/confirmation_top_toolbar"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/body"
+            layout="@layout/drawing_canvas" />
+
+        <include
+            android:id="@+id/movable_image"
+            layout="@layout/movable_image"/>
+
+        <include
+            android:id="@+id/footer"
+            layout="@layout/drawing_bottom_toolbar" />
+    </FrameLayout>
 </LinearLayout>

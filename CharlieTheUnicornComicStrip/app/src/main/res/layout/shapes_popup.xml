@@ -5,12 +5,11 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
-    <!--<ImageButton
+   <ImageButton
         android:id="@+id/first_background"
         android:layout_width="30dp  "
         android:layout_height="30dp"
         android:layout_weight="1"
-        android:contentDescription="@string/first_background"
-        android:src="@drawable/first_background" /> -->
+        android:src="@drawable/background" />
 
 </LinearLayout>

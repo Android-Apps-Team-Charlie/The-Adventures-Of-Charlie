@@ -3,8 +3,11 @@ package com.charlietheunicorn.charlietheunicorncomicstrip;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,22 +15,32 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.charlietheunicorn.charlietheunicorncomicstrip.shared.DrawingCanvasView;
+import com.charlietheunicorn.charlietheunicorncomicstrip.shared.MovableImageView;
 
 import java.util.UUID;
 
 public class DrawingActivity extends AppCompatActivity implements OnClickListener {
 
     private DrawingCanvasView drawingCanvasView;
+
+    private MovableImageView movableImage;
 	
     // buttons
-    private ImageButton currPaint, backgroundBtn, sizeBtn, eraseBtn, newBtn, saveBtn, colorsBtn;
-	
+    private ImageButton currPaint, backgroundBtn, shapesBtn, sizeBtn, eraseBtn, newBtn, saveBtn, colorsBtn;
+
+    private Context ctx = this;
+
+    private View layout;
+
+    // brush colors
     private View footer;
+
     // brush sizes
     private float xsBrush, sBrush, mBrush, lBrush, xlBrush, xxlBrush;
 
@@ -41,6 +54,8 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
     private void init() {
         // get canvas to operate on
         drawingCanvasView = (DrawingCanvasView)findViewById(R.id.body);
+        movableImage = (MovableImageView)findViewById(R.id.movable_image);
+        layout = findViewById(R.id.drawing_layout);
 
         //get the palette and first color button
         footer = findViewById(R.id.footer);
@@ -69,6 +84,10 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         // get Background btn
         backgroundBtn = (ImageButton)findViewById(R.id.background_btn);
         backgroundBtn.setOnClickListener(this);
+
+        // get Shapes btn
+        shapesBtn = (ImageButton)findViewById(R.id.shape_btn);
+        shapesBtn.setOnClickListener(this);
 
         // get Erase btn
         eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
@@ -100,6 +119,26 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         shapePickerDialog = new Dialog(this);
         shapePickerDialog.setTitle("Choose cartoon:");
         shapePickerDialog.setContentView(R.layout.shapes_popup);
+        shapePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                movableImage.setVisibility(View.VISIBLE);
+                findViewById(R.id.confirmation).setVisibility(View.VISIBLE);
+                findViewById(R.id.header).setVisibility(View.INVISIBLE);
+
+                BitmapDrawable drawable = (BitmapDrawable) movableImage.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+
+                drawingCanvasView.drawBitmap(bitmap, movableImage.getMatrix());
+                
+                movableImage.setVisibility(View.INVISIBLE);
+                findViewById(R.id.confirmation).setVisibility(View.INVISIBLE);
+                findViewById(R.id.header).setVisibility(View.VISIBLE);
+
+                drawingCanvasView.invalidate();
+            }
+        });
+
 
         // get brushSize btns
         xSmallBrush = (ImageButton)brushSizeDialog.findViewById(R.id.xsmall_brush);
@@ -201,6 +240,9 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         }
         else if(view.getId() == R.id.background_btn) {
             backgroundPickerDialog.show();
+        }
+        else if(view.getId() == R.id.shape_btn) {
+            shapePickerDialog.show();
         }
         else if(view.getId()==R.id.colors_btn){
             int currentVisibility = footer.getVisibility();
