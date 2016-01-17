@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.charlietheunicorn.charlietheunicorncomicstrip.shared.DrawingCanvasView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/canvas"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -9,6 +10,4 @@
     android:layout_marginTop="3dp"
     android:layout_weight="1"
     android:orientation="vertical"
-    android:background="@color/colorAccent">
-
-</LinearLayout>
+    android:background="@color/colorAccent" />

@@ -22,6 +22,6 @@
         layout="@layout/drawing_canvas" />
 
     <include
-        android:id="@+id/bottom"
+        android:id="@+id/footer"
         layout="@layout/drawing_bottom_toolbar" />
 </LinearLayout>
