@@ -3,7 +3,7 @@
         android:oneshot="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <item android:drawable="@drawable/image1" android:duration="1000" />
-        <item android:drawable="@drawable/image2" android:duration="1000" />
-        <item android:drawable="@drawable/image3" android:duration="1000" />
+        <item android:drawable="@drawable/image1" android:duration="1500" />
+        <item android:drawable="@drawable/image2" android:duration="1500" />
+        <item android:drawable="@drawable/image3" android:duration="1500" />
     </animation-list>
