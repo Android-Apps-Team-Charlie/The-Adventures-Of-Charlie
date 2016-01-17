@@ -20,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DrawingActivity"></activity>
+        <activity android:name=".DrawingActivity" />
+        <activity android:name=".SaveActivity"></activity>
     </application>
 
 </manifest>
