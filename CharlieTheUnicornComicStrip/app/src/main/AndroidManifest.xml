@@ -3,6 +3,9 @@
     package="com.charlietheunicorn.charlietheunicorncomicstrip">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +13,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -22,6 +28,7 @@
         </activity>
         <activity android:name=".DrawingActivity" />
         <activity android:name=".SaveActivity"></activity>
+
     </application>
 
 </manifest>

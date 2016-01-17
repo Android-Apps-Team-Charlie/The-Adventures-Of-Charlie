@@ -295,46 +295,6 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
 
             drawingCanvasView.destroyDrawingCache();
             startActivity(intent);
-
-
-            //save drawing
-        //    AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-         //   saveDialog.setTitle("Save drawing");
-          //  saveDialog.setMessage("Save drawing to device Gallery?");
-          //  saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-          //      public void onClick(DialogInterface dialog, int which) {
-
-
-                    //save drawing
-                //    drawingCanvasView.setDrawingCacheEnabled(true);
-//
-                //    String mediaState = Environment.MEDIA_MOUNTED;
-//
-                //    if (Environment.MEDIA_MOUNTED.equals(mediaState)) {
-                //        String imgSaved = MediaStore.Images.Media.insertImage(
-                //                getContentResolver(),
-                //                drawingCanvasView.getDrawingCache(),
-                //                UUID.randomUUID().toString() + ".png", "drawing");
-                //        //feedback
-                //        if (imgSaved != null) {
-                //            Toast savedToast = Toast.makeText(getApplicationContext(),
-                //                    "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
-                //            savedToast.show();
-                //        } else {
-                //            Toast unsavedToast = Toast.makeText(getApplicationContext(),
-                //                    "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
-                //            unsavedToast.show();
-                //        }
-                //        drawingCanvasView.destroyDrawingCache();
-                //    }
-        //      }
-        //    });
-        //    saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        //        public void onClick(DialogInterface dialog, int which) {
-        //            dialog.cancel();
-        //        }
-        //    });
-        //    saveDialog.show();
         }
     }
 }
