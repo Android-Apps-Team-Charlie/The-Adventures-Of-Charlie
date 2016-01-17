@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,9 +25,11 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
     //custom drawing view
     private DrawingCanvasView drawingCanvasView;
     //buttons
-    private ImageButton currPaint, backgroundBtn, drawBtn, eraseBtn, newBtn, saveBtn;
+    private ImageButton currPaint, backgroundBtn, drawBtn, eraseBtn, newBtn, saveBtn, colorsBtn;
     //sizes
     private float smallBrush, mediumBrush, largeBrush;
+
+    private View footer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +39,8 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         drawingCanvasView = (DrawingCanvasView)findViewById(R.id.body);
 
         //get the palette and first color button
-        View footer = findViewById(R.id.footer);
-        LinearLayout paintLayout = (LinearLayout)footer;
+        footer = findViewById(R.id.footer);
+        LinearLayout paintLayout = (LinearLayout)footer.findViewById(R.id.drawing_toolbar_bottom_layout);
         currPaint = (ImageButton)paintLayout.getChildAt(0);
         currPaint.setImageDrawable(getResources().getDrawable(R.drawable.color_pressed));
 
@@ -69,6 +72,10 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         //save button
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        //colors button
+        colorsBtn = (ImageButton)findViewById(R.id.colors_btn);
+        colorsBtn.setOnClickListener(this);
     }
 
     //user clicked paint
@@ -78,6 +85,8 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         //set erase false
         drawingCanvasView.setErase(false);
         drawingCanvasView.setBrushSize(drawingCanvasView.getLastBrushSize());
+
+
 
         if(view!=currPaint){
             ImageButton imgView = (ImageButton)view;
@@ -117,6 +126,18 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
 
             brushDialog.show();
         }
+        else if(view.getId()==R.id.colors_btn){
+            int currentVisibility = footer.getVisibility();
+
+            if (currentVisibility == View.INVISIBLE){
+                footer.setVisibility(View.VISIBLE);
+            }
+            else{
+                footer.setVisibility((View.INVISIBLE));
+            }
+
+        }
+
         else if(view.getId()==R.id.background_btn){
 
             final Dialog backgroundDialog = new Dialog(this);

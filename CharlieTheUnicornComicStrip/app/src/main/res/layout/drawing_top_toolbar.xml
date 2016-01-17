@@ -1,73 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView
     android:layout_width="wrap_content"
     android:layout_height="50dp"
-    android:layout_gravity="center"
-    android:orientation="horizontal"
-    android:id="@+id/drawing_toolbar_top_layout">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_marginRight="20dp">
+        android:id="@+id/drawing_toolbar_top_layout">
 
-        <ImageButton
-            android:id="@+id/new_btn"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/start_new"
-            android:src="@drawable/toolbar_new_icon" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginRight="20dp">
 
-        <ImageButton
-            android:id="@+id/save_btn"
+            <ImageButton
+                android:id="@+id/new_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/start_new"
+                android:src="@drawable/toolbar_new_icon" />
+
+            <ImageButton
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/save"
+                android:src="@drawable/toolbar_save_icon" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/save"
-            android:src="@drawable/toolbar_save_icon" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/background_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/background"
+                android:src="@drawable/toolbar_background_icon" />
+
+            <ImageButton
+                android:id="@+id/shape_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/shape"
+                android:src="@drawable/toolbar_shape_icon" />
+
+            <ImageButton
+                android:id="@+id/colors_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/colors"
+                android:src="@drawable/toolbar_colors_icon" />
+
+            <ImageButton
+                android:id="@+id/size_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/size"
+                android:src="@drawable/toolbar_size_icon" />
+
+            <ImageButton
+                android:id="@+id/erase_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:contentDescription="@string/erase"
+                android:src="@drawable/toolbar_eraser_icon" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/background_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/background"
-            android:src="@drawable/toolbar_background_icon" />
-
-        <ImageButton
-            android:id="@+id/shape_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/shape"
-            android:src="@drawable/toolbar_shape_icon" />
-
-        <ImageButton
-            android:id="@+id/colors_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/colors"
-            android:src="@drawable/toolbar_colors_icon" />
-
-        <ImageButton
-            android:id="@+id/size_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/size"
-            android:src="@drawable/toolbar_size_icon" />
-
-        <ImageButton
-            android:id="@+id/erase_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/erase"
-            android:src="@drawable/toolbar_eraser_icon" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</HorizontalScrollView>
