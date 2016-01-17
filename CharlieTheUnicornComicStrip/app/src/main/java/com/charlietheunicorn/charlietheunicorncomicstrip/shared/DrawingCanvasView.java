@@ -28,7 +28,7 @@ public class DrawingCanvasView extends View {
     //drawing and canvas paint
     private Paint drawPaint, canvasPaint;
     //initial color
-    private int paintColor = 0xFF000000;
+    private int paintColor;
     //canvas
     private Canvas drawCanvas;
     //canvas bitmap
@@ -45,8 +45,9 @@ public class DrawingCanvasView extends View {
 
     //setup drawing
     private void init(){
-        //prepare for drawing and setup paint stroke properties
-        brushSize = 20;
+        // initialize brush properties
+        paintColor = 0xFF000000;
+        brushSize = 5;
         lastBrushSize = brushSize;
         drawPath = new Path();
         drawPaint = new Paint();
@@ -67,14 +68,14 @@ public class DrawingCanvasView extends View {
         drawCanvas = new Canvas(canvasBitmap);
     }
 
-    //draw the view - will be called after touch event
+    // redraw the view, called each time on touch events
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
     }
 
-    //register user touches as drawing action
+    // override onTouch events
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float touchX = event.getX();
@@ -95,7 +96,8 @@ public class DrawingCanvasView extends View {
             default:
                 return false;
         }
-        //redraw
+
+        // redraw
         invalidate();
         return true;
 
@@ -112,13 +114,13 @@ public class DrawingCanvasView extends View {
     public void setBrushSize(float newSize){
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 newSize, getResources().getDisplayMetrics());
-        brushSize=pixelAmount;
+        brushSize = pixelAmount;
         drawPaint.setStrokeWidth(brushSize);
     }
 
     //get and set last brush size
     public void setLastBrushSize(float lastSize){
-        lastBrushSize=lastSize;
+        lastBrushSize = lastSize;
     }
 
     public float getLastBrushSize(){
@@ -127,12 +129,16 @@ public class DrawingCanvasView extends View {
 
     //set erase true or false
     public void setErase(boolean isErase){
-        erase=isErase;
-        if(erase) drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        else drawPaint.setXfermode(null);
+        erase = isErase;
+
+        if(erase) {
+            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            drawPaint.setXfermode(null);
+        }
     }
 
-    //start new drawing
+    // flush canvas to start anew
     public void startNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
