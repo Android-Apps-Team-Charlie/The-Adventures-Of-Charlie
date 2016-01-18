@@ -1,5 +1,6 @@
 package com.charlietheunicorn.charlietheunicorncomicstrip;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -38,7 +40,7 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
     // shape confirmation toolbar
     private View confirmation;
 
-    private Boolean hasSelectedShape;
+    private Boolean hasSelectedShape, hasSelectedBackground;
 
     // brush sizes
     private float xsBrush, sBrush, mBrush, lBrush, xlBrush, xxlBrush;
@@ -246,6 +248,16 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         movableImage.requestLayout();
 
         shapePickerDialog.dismiss();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void backgroundClicked(View view) {
+        hasSelectedBackground = true;
+
+        ImageButton imgView = (ImageButton)view;
+        drawingCanvasView.setBackground(imgView.getDrawable());
+
+        backgroundPickerDialog.dismiss();
     }
 
     @Override

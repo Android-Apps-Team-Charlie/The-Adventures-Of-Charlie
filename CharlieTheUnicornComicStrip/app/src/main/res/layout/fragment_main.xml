@@ -28,7 +28,6 @@
         android:layout_marginBottom="150dp"/>
 
     <Button
-        android:text="Start Game"
         android:id="@+id/button_start"
         style="@style/SharedButtonStyle"
         android:layout_alignParentBottom="true"
