@@ -14,6 +14,7 @@ public class MovableImageView extends ImageView {
     private int mLastAngle = 0;
     /* Pivot Point for Transforms */
     private int mPivotX, mPivotY;
+    private float lastX, lastY;
 
     public MovableImageView(Context context) {
         super(context);
@@ -127,6 +128,9 @@ public class MovableImageView extends ImageView {
                 float mPosX = x - this.getWidth()/2;
                 float mPosY = y - this.getHeight()/2 - mPivotY / 2;
 
+                lastX = mPosX;
+                lastY = mPosY;
+
                 this.setX(mPosX);
                 this.setY(mPosY);
 
@@ -159,4 +163,8 @@ public class MovableImageView extends ImageView {
         }
     }
 
+    public Matrix getFinalMatrix() {
+        mImageMatrix.postTranslate(lastX, lastY);
+        return mImageMatrix;
+    }
 }

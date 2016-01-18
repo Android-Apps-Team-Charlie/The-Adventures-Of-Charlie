@@ -2,30 +2,23 @@ package com.charlietheunicorn.charlietheunicorncomicstrip;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.charlietheunicorn.charlietheunicorncomicstrip.shared.DrawingCanvasView;
 import com.charlietheunicorn.charlietheunicorncomicstrip.shared.MovableImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.util.UUID;
 
 public class DrawingActivity extends AppCompatActivity implements OnClickListener {
 
@@ -34,14 +27,18 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
     private MovableImageView movableImage;
 	
     // buttons
-    private ImageButton currPaint, backgroundBtn, shapesBtn, sizeBtn, eraseBtn, newBtn, saveBtn, colorsBtn;
-
-    private Context ctx = this;
-
-    private View layout;
+    private ImageButton currPaint, backgroundBtn, shapesBtn, sizeBtn, eraseBtn, newBtn, saveBtn, colorsBtn, applyBtn, declineBtn;
 
     // brush colors
     private View footer;
+
+    // main toolbar
+    private View header;
+
+    // shape confirmation toolbar
+    private View confirmation;
+
+    private Boolean hasSelectedShape;
 
     // brush sizes
     private float xsBrush, sBrush, mBrush, lBrush, xlBrush, xxlBrush;
@@ -57,7 +54,10 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         // get canvas to operate on
         drawingCanvasView = (DrawingCanvasView)findViewById(R.id.body);
         movableImage = (MovableImageView)findViewById(R.id.movable_image);
-        layout = findViewById(R.id.drawing_layout);
+
+        header = findViewById(R.id.header);
+        confirmation = findViewById(R.id.confirmation);
+        hasSelectedShape = false;
 
         //get the palette and first color button
         footer = findViewById(R.id.footer);
@@ -71,7 +71,6 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         xxlBrush = getResources().getDimension(R.dimen.xxlarge_brush_size);
 
         // get color palette and set brush color to first color btn
-		
         currPaint = (ImageButton)paintLayout.getChildAt(0);
         currPaint.setImageDrawable(getResources().getDrawable(R.drawable.color_pressed));
 
@@ -79,6 +78,7 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         drawingCanvasView.setBrushSize(sBrush);
         drawingCanvasView.setLastBrushSize(sBrush);
 
+        //region Toolbar Button Event registering
         // get Size btn
         sizeBtn = (ImageButton)findViewById(R.id.size_btn);
         sizeBtn.setOnClickListener(this);
@@ -106,7 +106,15 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         //colors button
         colorsBtn = (ImageButton)findViewById(R.id.colors_btn);
         colorsBtn.setOnClickListener(this);
-		
+
+        applyBtn = (ImageButton)findViewById(R.id.apply_btn);
+        applyBtn.setOnClickListener(this);
+
+        declineBtn = (ImageButton)findViewById(R.id.decline_btn);
+        declineBtn.setOnClickListener(this);
+        //endregion
+
+        //region Dialogs initialization
         // set brushSizeDialog
         brushSizeDialog = new Dialog(this);
         brushSizeDialog.setTitle("Brush size:");
@@ -121,27 +129,21 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         shapePickerDialog = new Dialog(this);
         shapePickerDialog.setTitle("Choose cartoon:");
         shapePickerDialog.setContentView(R.layout.shapes_popup);
+
         shapePickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                movableImage.setVisibility(View.VISIBLE);
-                findViewById(R.id.confirmation).setVisibility(View.VISIBLE);
-                findViewById(R.id.header).setVisibility(View.INVISIBLE);
-
-                BitmapDrawable drawable = (BitmapDrawable) movableImage.getDrawable();
-                Bitmap bitmap = drawable.getBitmap();
-
-                drawingCanvasView.drawBitmap(bitmap, movableImage.getMatrix());
-                
-                movableImage.setVisibility(View.INVISIBLE);
-                findViewById(R.id.confirmation).setVisibility(View.INVISIBLE);
-                findViewById(R.id.header).setVisibility(View.VISIBLE);
-
-                drawingCanvasView.invalidate();
+                if (hasSelectedShape) {
+                    movableImage.setVisibility(View.VISIBLE);
+                    confirmation.setVisibility(View.VISIBLE);
+                    header.setVisibility(View.INVISIBLE);
+                    footer.setVisibility(View.INVISIBLE);
+                }
             }
         });
+        //endregion
 
-
+        //region Brush Size Buttons Events
         // get brushSize btns
         xSmallBrush = (ImageButton)brushSizeDialog.findViewById(R.id.xsmall_brush);
         smallBrush = (ImageButton)brushSizeDialog.findViewById(R.id.small_brush);
@@ -154,7 +156,6 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         xSmallBrush.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View v) {
-                // drawingCanvasView.setErase(false);
                 drawingCanvasView.setBrushSize(xsBrush);
                 drawingCanvasView.setLastBrushSize(xsBrush);
                 brushSizeDialog.dismiss();
@@ -205,11 +206,13 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
                 brushSizeDialog.dismiss();
             }
         });
-
+        //endregion
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
 
@@ -233,6 +236,18 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
         }
     }
 
+    public void shapeClicked(View view) {
+        hasSelectedShape = true;
+
+        ImageButton imgView = (ImageButton)view;
+        movableImage.setImageDrawable(imgView.getDrawable());
+        movableImage.setVisibility(View.VISIBLE);
+        movableImage.invalidate();
+        movableImage.requestLayout();
+
+        shapePickerDialog.dismiss();
+    }
+
     @Override
     public void onClick(View view){
         if(view.getId() == R.id.size_btn) {
@@ -240,22 +255,54 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
 
             brushSizeDialog.show();
         }
+        // open background picker dialog
         else if(view.getId() == R.id.background_btn) {
             backgroundPickerDialog.show();
         }
+        // open shape picker dialog
         else if(view.getId() == R.id.shape_btn) {
             shapePickerDialog.show();
         }
-        else if(view.getId()==R.id.colors_btn){
+        // confirm shape modifications and apply to canvas
+        else if(view.getId() == R.id.apply_btn) {
+            hasSelectedShape = false;
+
+            BitmapDrawable drawable = (BitmapDrawable) movableImage.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+
+            // gets movable image's final matrix in order to get its position as well, which is last to be translated
+            drawingCanvasView.drawBitmap(bitmap, movableImage.getFinalMatrix());
+
+            // TODO: reset movableImage layout
+            movableImage.setVisibility(View.INVISIBLE);
+            confirmation.setVisibility(View.INVISIBLE);
+            header.setVisibility(View.VISIBLE);
+
+            drawingCanvasView.invalidate();
+        }
+        // decline any modifications to shape and return to drawing mode
+        else if(view.getId() == R.id.decline_btn) {
+            hasSelectedShape = false;
+
+            // TODO: reset movableImage layout
+            movableImage.setVisibility(View.INVISIBLE);
+            confirmation.setVisibility(View.INVISIBLE);
+            header.setVisibility(View.VISIBLE);
+
+            drawingCanvasView.invalidate();
+        }
+        // toggle color palette
+        else if(view.getId() == R.id.colors_btn){
             int currentVisibility = footer.getVisibility();
 
             if (currentVisibility == View.INVISIBLE){
                 footer.setVisibility(View.VISIBLE);
             }
-            else{
+            else {
                 footer.setVisibility((View.INVISIBLE));
             }
         }
+        // toggle erase mode
         else if(view.getId() == R.id.erase_btn) {
             drawingCanvasView.setErase(true);
 			
@@ -263,6 +310,7 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
 
             brushSizeDialog.show();
         }
+        // clear canvas
         else if(view.getId() == R.id.new_btn) {
             AlertDialog.Builder newDialog = new AlertDialog.Builder(this);
             newDialog.setTitle("New drawing");
@@ -280,6 +328,7 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
             });
             newDialog.show();
         }
+        // sends user to save activity
         else if(view.getId() == R.id.save_btn) {
 
             drawingCanvasView.setDrawingCacheEnabled(true);
@@ -295,46 +344,6 @@ public class DrawingActivity extends AppCompatActivity implements OnClickListene
 
             drawingCanvasView.destroyDrawingCache();
             startActivity(intent);
-
-
-            //save drawing
-        //    AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
-         //   saveDialog.setTitle("Save drawing");
-          //  saveDialog.setMessage("Save drawing to device Gallery?");
-          //  saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-          //      public void onClick(DialogInterface dialog, int which) {
-
-
-                    //save drawing
-                //    drawingCanvasView.setDrawingCacheEnabled(true);
-//
-                //    String mediaState = Environment.MEDIA_MOUNTED;
-//
-                //    if (Environment.MEDIA_MOUNTED.equals(mediaState)) {
-                //        String imgSaved = MediaStore.Images.Media.insertImage(
-                //                getContentResolver(),
-                //                drawingCanvasView.getDrawingCache(),
-                //                UUID.randomUUID().toString() + ".png", "drawing");
-                //        //feedback
-                //        if (imgSaved != null) {
-                //            Toast savedToast = Toast.makeText(getApplicationContext(),
-                //                    "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
-                //            savedToast.show();
-                //        } else {
-                //            Toast unsavedToast = Toast.makeText(getApplicationContext(),
-                //                    "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
-                //            unsavedToast.show();
-                //        }
-                //        drawingCanvasView.destroyDrawingCache();
-                //    }
-        //      }
-        //    });
-        //    saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        //        public void onClick(DialogInterface dialog, int which) {
-        //            dialog.cancel();
-        //        }
-        //    });
-        //    saveDialog.show();
         }
     }
 }

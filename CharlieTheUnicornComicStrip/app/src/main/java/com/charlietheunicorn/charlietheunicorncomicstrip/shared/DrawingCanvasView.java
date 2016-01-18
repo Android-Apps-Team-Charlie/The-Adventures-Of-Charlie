@@ -37,16 +37,15 @@ public class DrawingCanvasView extends View {
     //brush sizes
     private float brushSize, lastBrushSize;
     //erase flag
-    private boolean erase=false;
+    private boolean erase = false;
 
     public DrawingCanvasView(Context context, AttributeSet attrs){
         super(context, attrs);
         init();
     }
 
-    //setup drawing
+    // setup drawing view
     private void init(){
-        // initialize brush properties
         paintColor = 0xFF000000;
         brushSize = 5;
         lastBrushSize = brushSize;
@@ -80,6 +79,7 @@ public class DrawingCanvasView extends View {
         drawCanvas.drawBitmap(bitmap, matrix, null);
         invalidate();
     }
+
 
     // override onTouch events
     @Override

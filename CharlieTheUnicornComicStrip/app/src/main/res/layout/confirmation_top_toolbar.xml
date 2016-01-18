@@ -10,13 +10,11 @@
         android:id="@+id/apply_btn"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:contentDescription="@string/start_new"
-        android:src="@drawable/toolbar_new_icon" />
+        android:src="@drawable/toolbar_ok" />
 
     <ImageButton
         android:id="@+id/decline_btn"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:contentDescription="@string/start_new"
-        android:src="@drawable/toolbar_new_icon" />
+        android:src="@drawable/toolbar_close" />
 </LinearLayout>
